@@ -28,6 +28,8 @@ object ScctPlugin extends Plugin {
 
       sources in Scct <<= (sources in Compile),
       sourceDirectory in Scct <<= (sourceDirectory in Compile),
+      unmanagedResources in Scct <<= (unmanagedResources in Compile),
+      resourceDirectory in Scct <<= (resourceDirectory in Compile),
 
       scalacOptions in Scct <++= (name in Scct, baseDirectory in Scct, update) map { (n, b, report) =>
         val pluginClasspath = report matching configurationFilter("scct")
@@ -43,7 +45,7 @@ object ScctPlugin extends Plugin {
       sourceDirectory in ScctTest <<= (sourceDirectory in Test),
       unmanagedResources in ScctTest <<= (unmanagedResources in Test),
 
-      resourceDirectory in ScctTest <<= (resourceDirectory in Compile),
+      resourceDirectory in ScctTest <<= (resourceDirectory in Test),
 
       externalDependencyClasspath in Scct <<= Classpaths.concat(externalDependencyClasspath in Scct, externalDependencyClasspath in Compile),
       externalDependencyClasspath in ScctTest <<= Classpaths.concat(externalDependencyClasspath in ScctTest, externalDependencyClasspath in Test),
