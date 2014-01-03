@@ -26,7 +26,7 @@ object ScctPlugin extends Plugin {
       //resolvers += Resolver.url("local-ivy", new URL("file://" + Path.userHome.absolutePath + "/.ivy2/local"))(Resolver.ivyStylePatterns),
       resolvers += "Sonatype OSS" at "https://oss.sonatype.org/content/repositories/snapshots",
 
-      libraryDependencies += "com.github.scct" %% "scct" % "0.3-SNAPSHOT" % "scct",
+      libraryDependencies += "com.sqality.scct" %% "scct" % "0.3-SNAPSHOT" % "scct",
 
       sources in Scct <<= (sources in Compile),
       sourceDirectory in Scct <<= (sourceDirectory in Compile),
@@ -78,7 +78,7 @@ object ScctPlugin extends Plugin {
   })
 
   def scctJarPath = {
-    val url = classOf[com.github.scct.ScctInstrumentPlugin].getProtectionDomain().getCodeSource().getLocation()
+    val url = classOf[com.sqality.scct.ScctInstrumentPlugin].getProtectionDomain().getCodeSource().getLocation()
     new File(url.toURI).getAbsolutePath
   }
 
@@ -108,7 +108,7 @@ object ScctPlugin extends Plugin {
   }
 
   def generateReport(input: Seq[File], out: File) = {
-    import com.github.scct.report._
+    import com.sqality.scct.report._
     MultiProjectHtmlReporter.report(input, out)
     out
   }
