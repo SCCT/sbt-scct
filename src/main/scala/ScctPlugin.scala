@@ -8,6 +8,7 @@ object ScctPlugin extends Plugin {
   val scctReportDir = SettingKey[File]("scct-report-dir")
 
   val scctExcludePackages = SettingKey[String]("scct-exclude-package")
+  val scctExcludeFiles = SettingKey[String]("scct-exclude-files")
 
   lazy val Scct = config("scct")
   lazy val ScctTest = config("scct-test") extend Scct
@@ -18,6 +19,7 @@ object ScctPlugin extends Plugin {
     Seq(
       scctReportDir <<= crossTarget / "coverage-report",
       scctExcludePackages <<= scctExcludePackages ?? "",
+      scctExcludeFiles <<= scctExcludeFiles ?? "",
 
       ivyConfigurations ++= Seq(Scct, ScctTest),
 
@@ -119,8 +121,17 @@ object ScctPlugin extends Plugin {
   }
   /** Generate hook that is invoked before each tests execution. */
   def testSetup() =
-    (name in Scct, baseDirectory in Scct, scalaSource in Scct, classDirectory in ScctTest, scctExcludePackages in ScctTest, definedTests in ScctTest, scctReportDir, streams) map {
-      (name, baseDirectory, scalaSource, classDirectory, scctExcludePackages, definedTests, scctReportDir, streams) =>
+    ( name                in Scct,
+      baseDirectory       in Scct,
+      scalaSource         in Scct,
+      classDirectory      in ScctTest,
+      scctExcludePackages in ScctTest,
+      scctExcludeFiles    in ScctTest,
+      definedTests        in ScctTest,
+      scctReportDir,
+      streams) map {
+      (name, baseDirectory, scalaSource, classDirectory, scctExcludePackages, scctExcludeFiles, definedTests,
+       scctReportDir, streams) =>
         if (definedTests.isEmpty) {
           streams.log.debug(logPrefix(name) + "No tests found. Skip SCCT setup hook.")
           Tests.Setup { () => {} }
@@ -134,7 +145,8 @@ object ScctPlugin extends Plugin {
             props.setProperty("scct.project.name", name)
             props.setProperty("scct.report.dir", scctReportDir.getAbsolutePath)
             props.setProperty("scct.source.dir", scalaSource.getAbsolutePath)
-            props.setProperty("scct.excluded.paths.regex", scctExcludePackages.configuration.getOrElse(""))
+            props.setProperty("scct.excluded.classes.regex", scctExcludePackages)
+            props.setProperty("scct.excluded.paths.regex", scctExcludeFiles)
             IO.write(props, "Env for scct test run and report generation", out)
           }
     }
