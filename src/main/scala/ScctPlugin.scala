@@ -26,7 +26,7 @@ object ScctPlugin extends Plugin {
       //resolvers += Resolver.url("local-ivy", new URL("file://" + Path.userHome.absolutePath + "/.ivy2/local"))(Resolver.ivyStylePatterns),
       resolvers += "Sonatype OSS" at "https://oss.sonatype.org/content/repositories/snapshots",
 
-      libraryDependencies += "com.sqality.scct" %% "scct" % "0.3-SNAPSHOT" % "scct",
+      libraryDependencies += "com.sqality.scct" %% "scct" % "0.3" % "scct",
 
       sources in Scct <<= (sources in Compile),
       sourceDirectory in Scct <<= (sourceDirectory in Compile),
