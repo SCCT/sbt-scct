@@ -6,13 +6,13 @@ version := "0.3-SNAPSHOT"
 
 scalaVersion := "2.10.2"
 
-crossScalaVersions := Seq("2.10.2", "2.9.2", "2.9.1-1", "2.9.1", "2.9.0-1", "2.9.0")
+crossScalaVersions := Seq("2.10.3", "2.11.0-M7")
 
 sbtPlugin := true
 
 crossBuildingSettings
 
-CrossBuilding.crossSbtVersions := Seq("0.12", "0.13")
+CrossBuilding.crossSbtVersions := Seq("0.13")
 
 resolvers += "Sonatype OSS" at "https://oss.sonatype.org/content/repositories/snapshots"
 
