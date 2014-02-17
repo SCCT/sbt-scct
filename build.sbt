@@ -2,7 +2,7 @@ organization := "com.sqality.scct"
 
 name := "sbt-scct"
 
-version := "0.3-SNAPSHOT"
+version := "0.3.1-SNAPSHOT"
 
 scalaVersion := "2.10.2"
 
@@ -18,7 +18,7 @@ resolvers += "Sonatype OSS" at "https://oss.sonatype.org/content/repositories/sn
 
 //resolvers += Resolver.url("local-ivy", new URL("file://" + Path.userHome.absolutePath + "/.ivy2/local"))(Resolver.ivyStylePatterns)
 
-libraryDependencies += "com.sqality.scct" %% "scct" % "0.3-SNAPSHOT"
+libraryDependencies += "com.sqality.scct" %% "scct" % "0.3.1-SNAPSHOT"
 
 publishTo <<= version { (v: String) =>
   val nexus = "https://oss.sonatype.org/"
