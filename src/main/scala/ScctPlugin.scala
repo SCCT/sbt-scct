@@ -26,18 +26,19 @@ object ScctPlugin extends Plugin {
       //resolvers += Resolver.url("local-ivy", new URL("file://" + Path.userHome.absolutePath + "/.ivy2/local"))(Resolver.ivyStylePatterns),
       resolvers += "Sonatype OSS" at "https://oss.sonatype.org/content/repositories/snapshots",
 
-      libraryDependencies += "com.sqality.scct" %% "scct" % "0.3.1-SNAPSHOT" % "scct",
+      unmanagedJars in Scct ++= {
+        Seq(new File(scctJarPath)).classpath
+      }
 
       sources in Scct <<= (sources in Compile),
       sourceDirectory in Scct <<= (sourceDirectory in Compile),
       unmanagedResources in Scct <<= (unmanagedResources in Compile),
       resourceDirectory in Scct <<= (resourceDirectory in Compile),
 
-      scalacOptions in Scct <++= (name in Scct, baseDirectory in Scct, update) map { (n, b, report) =>
-        val pluginClasspath = report matching configurationFilter("scct")
-        if (pluginClasspath.isEmpty) throw new Exception("Fatal: scct not in libraryDependencies. Use e.g. <+= or <++= instead of <<=")
+      scalacOptions in Scct <++= (name in Scct, baseDirectory in Scct) map { (n, b) =>
+        val pluginClasspath = scctJarPath
         Seq(
-          "-Xplugin:" + pluginClasspath.head.getAbsolutePath,
+          "-Xplugin:" + pluginClasspath,
           "-P:scct:projectId:" + n,
           "-P:scct:basedir:" + b
         )
