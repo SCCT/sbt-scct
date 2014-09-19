@@ -28,7 +28,7 @@ object ScctPlugin extends Plugin {
 
       unmanagedJars in Scct ++= {
         Seq(new File(scctJarPath)).classpath
-      }
+      },
 
       sources in Scct <<= (sources in Compile),
       sourceDirectory in Scct <<= (sourceDirectory in Compile),
